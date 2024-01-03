@@ -1,0 +1,66 @@
+name: CI/CD- Single GitHub Workflow with Manual Trigger option
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Manual trigger event
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+  deploy_dev:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Dev
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
+        run: |
+          # Add your deployment steps specific to Dev environment here
+
+  deploy_qa:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to QA
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
+        run: |
+          # Add your deployment steps specific to QA environment here
+
+  deploy_staging:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Staging
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch' }}
+        run: |
+          # Add your deployment steps specific to staging environment here
+
+  deploy_prod:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Production
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/tags/v*' || github.event_name == 'workflow_dispatch' }}
+        run: |
+          # Add your deployment steps specific to production environment here
