@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI/CD- Single Workflow for All the environments
 
 on:
   push:
