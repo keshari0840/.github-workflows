@@ -38,10 +38,3 @@ jobs:
         if: ${{ github.event.inputs.environment == 'production' }}
         run: |
           # Add deployment steps for production environment
-  manual-trigger:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger workflow manually
-        uses: appleboy/trigger-gh-action@master
-        with:
-          workflow: 'Deployment Workflow'
