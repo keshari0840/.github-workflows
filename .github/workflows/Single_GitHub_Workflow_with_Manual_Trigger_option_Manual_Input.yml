@@ -1,1 +1,47 @@
+name: Deployment Workflow
 
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose environment'
+        required: true
+        default: 'dev'
+        options:
+          - 'dev'
+          - 'qa'
+          - 'staging'
+          - 'production'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to ${{ github.event.inputs.environment }}
+        if: ${{ github.event.inputs.environment == 'dev' }}
+        run: |
+          # Add deployment steps for dev environment
+
+      - name: Deploy to ${{ github.event.inputs.environment }}
+        if: ${{ github.event.inputs.environment == 'qa' }}
+        run: |
+          # Add deployment steps for QA environment
+
+      - name: Deploy to ${{ github.event.inputs.environment }}
+        if: ${{ github.event.inputs.environment == 'staging' }}
+        run: |
+          # Add deployment steps for staging environment
+
+      - name: Deploy to ${{ github.event.inputs.environment }}
+        if: ${{ github.event.inputs.environment == 'production' }}
+        run: |
+          # Add deployment steps for production environment
+  manual-trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger workflow manually
+        uses: appleboy/trigger-gh-action@master
+        with:
+          workflow: 'Deployment Workflow'
